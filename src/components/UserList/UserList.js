@@ -1,22 +1,17 @@
+import styles from "./UserList.module.css"
+import Card from "../UI/Card";
+
 function UserList({users}) {
 
-	const usersHtml = users.map(user => <tr key={crypto.randomUUID()}>
-		<td>{user.name}</td>
-		<td>{user.age}</td>
-	</tr>)
+	const usersHtml = users.map(user => <li key={crypto.randomUUID()}>{user.name} - {user.age} years old</li>)
 
 	return (
-		<table>
-			<thead>
-			<tr>
-				<td>Name</td>
-				<td>Age</td>
-			</tr>
-			</thead>
-			<tbody>
-			{usersHtml}
-			</tbody>
-		</table>
+		<Card className={styles.users}>
+			<ul>
+				{usersHtml}
+			</ul>
+		</Card>
+
 	)
 }
 

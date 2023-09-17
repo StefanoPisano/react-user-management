@@ -1,5 +1,6 @@
 import {useState} from "react";
-import userList from "../UserList/UserList";
+import styles from "./UserForm.module.css";
+import Card from "../UI/Card";
 
 const DEFAULT_STATE = {
 	name: '',
@@ -42,7 +43,7 @@ function UserForm(props) {
 	}
 
 	return (
-		<div>
+		<Card className={styles.input}>
 			<form onSubmit={submitUser}>
 				<p>
 					<label htmlFor="name">Name</label>
@@ -55,15 +56,12 @@ function UserForm(props) {
 					       onChange={updateAge}/>
 				</p>
 				<p>
-					<button type="reset">
-						Reset
-					</button>
-					<button type="submit">
-						Calculate
+					<button type="submit" className={styles.button}>
+						Add User
 					</button>
 				</p>
 			</form>
-		</div>
+		</Card>
 	)
 }
 
