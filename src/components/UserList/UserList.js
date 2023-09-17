@@ -1,6 +1,6 @@
 function UserList({users}) {
 
-	const usersHtml = users.map(user => <tr>
+	const usersHtml = users.map(user => <tr key={crypto.randomUUID()}>
 		<td>{user.name}</td>
 		<td>{user.age}</td>
 	</tr>)
