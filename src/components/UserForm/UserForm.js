@@ -4,7 +4,7 @@ import Card from "../UI/Card";
 
 const DEFAULT_STATE = {
 	name: '',
-	age: null
+	age: ''
 }
 
 function UserForm(props) {
@@ -32,11 +32,13 @@ function UserForm(props) {
 		event.preventDefault();
 
 		const validName = user.name && user.name.trim().length;
-		const validAge = user.age && !isNaN(user.age);
+		const validAge = user.age && !isNaN(user.age) && user.age > 0;
 
 		const validUser = validName && validAge;
 		if (validUser) {
 			props.onSubmitUser(user);
+
+			setUser(DEFAULT_STATE);
 		} else {
 			console.error("User is not valid", user)
 		}
@@ -45,21 +47,15 @@ function UserForm(props) {
 	return (
 		<Card className={styles.input}>
 			<form onSubmit={submitUser}>
-				<p>
-					<label htmlFor="name">Name</label>
-					<input type="text" id="name" value={user.name}
-					       onChange={updateName}/>
-				</p>
-				<p>
-					<label htmlFor="age">Age</label>
-					<input type="number" id="age" value={user.age}
-					       onChange={updateAge}/>
-				</p>
-				<p>
-					<button type="submit" className={styles.button}>
-						Add User
-					</button>
-				</p>
+				<label htmlFor="name">Name</label>
+				<input type="text" id="name" value={user.name}
+				       onChange={updateName}/>
+				<label htmlFor="age">Age (Years)</label>
+				<input type="number" id="age" value={user.age}
+				       onChange={updateAge}/>
+				<button type="submit" className={styles.button}>
+					Add User
+				</button>
 			</form>
 		</Card>
 	)
