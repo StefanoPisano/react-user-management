@@ -1,14 +1,27 @@
 import {useState} from "react";
 import styles from "./UserForm.module.css";
 import Card from "../UI/Card";
+import ErrorModal from "../UI/ErrorModal";
 
 const DEFAULT_STATE = {
 	name: '',
 	age: ''
 }
 
+const ERROR_MESSAGES = {
+	name: {
+		title: 'Invalid name',
+		message: 'Name must not be empty.'
+	},
+	age: {
+		title: 'Invalid age',
+		message: 'Age must be not empty and greater than 0'
+	}
+}
+
 function UserForm(props) {
 	const [user, setUser] = useState(DEFAULT_STATE);
+	const [error, setError] = useState();
 
 	const updateName = event => {
 		setUser(prevState => {
@@ -40,24 +53,39 @@ function UserForm(props) {
 
 			setUser(DEFAULT_STATE);
 		} else {
-			console.error("User is not valid", user)
+			if (!validName) {
+				setError(ERROR_MESSAGES.name);
+				return;
+			}
+
+			if (!validAge) {
+				setError(ERROR_MESSAGES.age);
+				return;
+			}
 		}
 	}
 
+	const handleClosedErrorModal = () => setError(undefined);
+
 	return (
-		<Card className={styles.input}>
-			<form onSubmit={submitUser}>
-				<label htmlFor="name">Name</label>
-				<input type="text" id="name" value={user.name}
-				       onChange={updateName}/>
-				<label htmlFor="age">Age (Years)</label>
-				<input type="number" id="age" value={user.age}
-				       onChange={updateAge}/>
-				<button type="submit" className={styles.button}>
-					Add User
-				</button>
-			</form>
-		</Card>
+		<div>
+			{error && < ErrorModal title={error.title} message={error.message} onCloseErrorModal={handleClosedErrorModal}/>}
+
+			<Card className={styles.input}>
+				<form onSubmit={submitUser}>
+					<label htmlFor="name">Name</label>
+					<input type="text" id="name" value={user.name}
+					       onChange={updateName}/>
+					<label htmlFor="age">Age (Years)</label>
+					<input type="number" id="age" value={user.age}
+					       onChange={updateAge}/>
+					<button type="submit" className={styles.button}>
+						Add User
+					</button>
+				</form>
+			</Card>
+		</div>
+
 	)
 }
 
